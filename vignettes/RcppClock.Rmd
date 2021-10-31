@@ -32,7 +32,7 @@ library(RcppClock)
 You may load it into your R session using `library(RcppClock)`, but more commonly you will load the header library into Rcpp functions:
 
 ```{Rcpp}
-//[[Rcpp::depends]]
+//[[Rcpp::depends(RcppClock)]]
 #include <RcppClock.h>
 #include <thread>
 

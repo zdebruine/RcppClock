@@ -18,7 +18,7 @@
 #' See the source code on \code{github.com/zdebruine/RcppClock/src/fibonacci.cpp}
 #' 
 #' @docType package
-#' @name RcpClock
+#' @name RcppClock
 #' @useDynLib RcppClock
 #' @importFrom stats aggregate sd
 #' @import ggplot2
