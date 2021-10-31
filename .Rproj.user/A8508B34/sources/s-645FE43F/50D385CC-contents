@@ -1,0 +1,21 @@
+#include <RcppClock.h>
+#include <thread>
+
+//[[Rcpp::export]]
+void sleepy(){
+  Rcpp::Clock clock;
+  
+  // start the timer
+  clock.tick("short_nap");
+  std::this_thread::sleep_for(std::chrono::milliseconds(10));  
+  
+  // stop the previous timer and start a new timer
+  clock.tick("long_nap");
+  std::this_thread::sleep_for(std::chrono::milliseconds(100));  
+  
+  // stop the previous timer, don't start a new timer
+  clock.tock();
+  
+  // send the times to the R global environment variable, named "naptimes"
+  clock.fetch("naptimes");
+}

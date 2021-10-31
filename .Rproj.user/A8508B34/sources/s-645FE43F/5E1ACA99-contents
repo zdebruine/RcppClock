@@ -1,0 +1,5 @@
+
+fibonacci <- function(n = c(25, 30, 35), reps = 10){
+  Rcpp_fibonacci_timer(n, reps)
+  summary(times)
+}
