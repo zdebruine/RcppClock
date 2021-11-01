@@ -12,7 +12,7 @@ library(RcppClock)
 
 ## The Rcpp side of things
 
-Load the RcppClock header into your R session using `library(RcppClock)`, but more commonly you will load the header library into Rcpp functions:
+Load the RcppClock header into your R session using `library(RcppClock)`, link it in your `DESCRIPTION` file or with `//[[Rcpp::depends(RcppClock)]]`, and load the header library into individual `.cpp` files with `#include <RcppClock.h>`:
 
 ```
 //[[Rcpp::depends(RcppClock)]]
