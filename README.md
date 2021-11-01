@@ -86,7 +86,7 @@ void fibonacci(std::vector<int> n, int reps = 10) {
       clock.tock("fib" + std::to_string(number));
     }
   }
-  clock.write("clock");
+  clock.stop("clock");
 }
 ```
 
