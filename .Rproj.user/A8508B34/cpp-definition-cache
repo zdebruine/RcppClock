@@ -1,58 +1,49 @@
 [
     {
         "file": "C:/Users/Owner/Documents/GitHub/RcppClock/inst/include/RcppClock.h",
-        "file_last_write": 1635703454.0,
+        "file_last_write": 1635793086.0,
         "definitions": [
-            {
-                "usr": "c:RcppClock.h@T@time_point",
-                "kind": 8,
-                "parent_name": "",
-                "name": "time_point",
-                "file": "C:/Users/Owner/Documents/GitHub/RcppClock/inst/include/RcppClock.h",
-                "line": 4,
-                "column": 56
-            },
             {
                 "usr": "c:@N@Rcpp@S@Clock",
                 "kind": 2,
                 "parent_name": "",
                 "name": "Clock",
                 "file": "C:/Users/Owner/Documents/GitHub/RcppClock/inst/include/RcppClock.h",
-                "line": 9,
+                "line": 8,
                 "column": 9
             },
             {
-                "usr": "c:@N@Rcpp@S@Clock@F@tick#1$@N@std@N@__1@S@basic_string>#C#$@N@std@N@__1@S@char_traits>#C#$@N@std@N@__1@S@allocator>#C#",
+                "usr": "c:@N@Rcpp@S@Clock@F@tick#$@N@std@N@__1@S@basic_string>#C#$@N@std@N@__1@S@char_traits>#C#$@N@std@N@__1@S@allocator>#C#",
                 "kind": 7,
                 "parent_name": "Clock",
-                "name": "tick(const std::string)",
+                "name": "tick(std::string)",
                 "file": "C:/Users/Owner/Documents/GitHub/RcppClock/inst/include/RcppClock.h",
-                "line": 17,
+                "line": 19,
                 "column": 10
             },
             {
-                "usr": "c:@N@Rcpp@S@Clock@F@tock#",
+                "usr": "c:@N@Rcpp@S@Clock@F@tock#$@N@std@N@__1@S@basic_string>#C#$@N@std@N@__1@S@char_traits>#C#$@N@std@N@__1@S@allocator>#C#",
                 "kind": 7,
                 "parent_name": "Clock",
-                "name": "tock",
+                "name": "tock(std::string)",
                 "file": "C:/Users/Owner/Documents/GitHub/RcppClock/inst/include/RcppClock.h",
                 "line": 25,
                 "column": 10
             },
             {
-                "usr": "c:@N@Rcpp@S@Clock@F@write#$@N@std@N@__1@S@basic_string>#C#$@N@std@N@__1@S@char_traits>#C#$@N@std@N@__1@S@allocator>#C#",
+                "usr": "c:@N@Rcpp@S@Clock@F@stop#$@N@std@N@__1@S@basic_string>#C#$@N@std@N@__1@S@char_traits>#C#$@N@std@N@__1@S@allocator>#C#",
                 "kind": 7,
                 "parent_name": "Clock",
-                "name": "write(std::string)",
+                "name": "stop(std::string)",
                 "file": "C:/Users/Owner/Documents/GitHub/RcppClock/inst/include/RcppClock.h",
-                "line": 32,
+                "line": 31,
                 "column": 10
             }
         ]
     },
     {
         "file": "C:/Users/Owner/Documents/GitHub/RcppClock/src/fibonacci.cpp",
-        "file_last_write": 1635704277.0,
+        "file_last_write": 1635793733.0,
         "definitions": [
             {
                 "usr": "c:@F@fib#I#",
@@ -60,7 +51,7 @@
                 "parent_name": "",
                 "name": "fib(int)",
                 "file": "C:/Users/Owner/Documents/GitHub/RcppClock/src/fibonacci.cpp",
-                "line": 4,
+                "line": 7,
                 "column": 5
             },
             {
@@ -69,7 +60,7 @@
                 "parent_name": "",
                 "name": "fibonacci(int, int)",
                 "file": "C:/Users/Owner/Documents/GitHub/RcppClock/src/fibonacci.cpp",
-                "line": 30,
+                "line": 33,
                 "column": 6
             }
         ]

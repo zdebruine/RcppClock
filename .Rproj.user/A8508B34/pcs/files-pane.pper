@@ -5,5 +5,5 @@
             "ascending": true
         }
     ],
-    "path": "~/GitHub/RcppClock/vignettes"
+    "path": "~/GitHub/RcppClock/tests/testthat"
 }

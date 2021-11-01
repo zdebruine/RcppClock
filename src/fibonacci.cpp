@@ -1,5 +1,8 @@
 #include <RcppClock.h>
 
+//[[Rcpp::plugins(openmp)]]
+#include <omp.h>
+
 // a simple timing example
 int fib(int n) {
   return ((n <= 1) ? n : fib(n - 1) + fib(n - 2));
@@ -29,13 +32,13 @@ int fib(int n) {
 //[[Rcpp::export]]
 void fibonacci(std::vector<int> n, int reps = 10) {
   Rcpp::Clock clock;
-  
-  while(reps-- > 0){
+
+  for(int i = 0; i < reps; ++i){
     for(auto number : n){
       clock.tick("fib" + std::to_string(number));
       fib(number);
+      clock.tock("fib" + std::to_string(number));
     }
   }
-  clock.tock();
-  clock.write("clock");
+  clock.stop("clock");
 }

@@ -23,27 +23,24 @@ Load the RcppClock header into your R session using `library(RcppClock)`, but mo
 void sleepy(){
   Rcpp::Clock clock;
   
-  // start the timer
   clock.tick("short_nap");
   std::this_thread::sleep_for(std::chrono::milliseconds(10));  
+  clock.tock("short_nap");
   
-  // stop the previous timer and start a new timer
   clock.tick("long_nap");
   std::this_thread::sleep_for(std::chrono::milliseconds(100));  
+  clock.tock("long_nap");
 
-  // stop the previous timer, don't start a new timer
-  clock.tock();
-  
   // send the times to the R global environment variable, named "naptimes"
-  clock.fetch("naptimes");
+  clock.stop("naptimes");
 }
 ```
 
-`.tick()` starts the timer for one function and stops it for the preceding function (if applicable). 
+`.tick(std::string)` starts a new timer. Provide a name to record what is being timed.
 
-`.tock()` simply stops the timer for the preceding function and does not re-start it. 
+`.tock(std::string)` stops a timer. It is important to use the same name as declared in `.tick()`.
 
-`.fetch()` captures the times up to that point and creates a variable in the global environment with the specified name.
+`.stop(std::string)` calculates the duration between all `.tick()` and `.tock()` timing results, and creates an object in the R environment with the name provided.
 
 ## The R side of things
 
@@ -82,9 +79,9 @@ void fibonacci(std::vector<int> n, int reps = 10) {
     for(auto number : n){
       clock.tick("fib" + std::to_string(number));
       fib(number);
+      clock.tock("fib" + std::to_string(number));
     }
   }
-  clock.tock();
   clock.write("clock");
 }
 ```
@@ -92,7 +89,7 @@ void fibonacci(std::vector<int> n, int reps = 10) {
 On the R end, we'll get an object named "clock":
 
 ```{R}
-fibonacci(n = c(25:35), reps = 10)
+fibonacci(n = 25:35, reps = 10)
 # global variable "clock" is created in the R global environment
 clock
 ```
@@ -103,5 +100,5 @@ plot(clock)
 
 ## Limitations
 
-* Not compatible with timing inside multi-threaded loops.
-* Processes taking less than 1 microsecond cannot be reliably timed.
+* Not compatible with OpenMP parallelization.
+* Processes taking less than a microsecond cannot be reliably timed.

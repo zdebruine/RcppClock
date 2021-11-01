@@ -3,28 +3,38 @@
 \docType{package}
 \name{RcppClock}
 \alias{RcppClock}
+\alias{RcppClock,}
+\alias{RcppClock-package,}
+\alias{RcppClock-class}
 \alias{summary.RcppClock}
 \alias{print.RcppClock}
 \alias{plot.RcppClock}
 \title{RcppClock}
 \usage{
-\method{summary}{RcppClock}(x, units = "auto")
+\method{summary}{RcppClock}(object, units = "auto", ...)
 
-\method{print}{RcppClock}(x)
+\method{print}{RcppClock}(x, ...)
 
-\method{plot}{RcppClock}(x)
+\method{plot}{RcppClock}(x, ...)
 }
 \arguments{
-\item{x}{RcppClock object}
+\item{object}{RcppClock object}
 
 \item{units}{nanoseconds (\code{"ns"}), microseconds (\code{"us"}), milliseconds (\code{"ms"}), seconds (\code{"s"}), or auto (\code{"auto"})}
+
+\item{...}{arguments to other functions}
+
+\item{x}{RcppClock object}
 }
 \description{
 Time Rcpp functions and summarize, print, and plot runtime statistics
 }
+\details{
+See https://github.com/zdebruine/RcppClock/readme.md for information on how to use the package.
+}
 \section{RcppClock functions}{
 
-See the vignette to learn how to use RcppClock in Rcpp code.
+See the RcppClock README on \code{https://github.com/zdebruine/RcppClock#readme} for basic usage examples.
 
 When the Rcpp \verb{Rcpp::clock::write()} method is called in Rcpp code, an S3 \code{RcppClock} object
 will be created in the global environment. This object contains three methods:

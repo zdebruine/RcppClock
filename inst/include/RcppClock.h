@@ -1,41 +1,49 @@
 #include <Rcpp.h>
 #include <chrono>
 
-typedef std::chrono::high_resolution_clock::time_point time_point;
 #define duration(a) std::chrono::duration_cast<std::chrono::nanoseconds>(a).count()
 #define now() std::chrono::high_resolution_clock::now()
 
 namespace Rcpp {
   class Clock {
   private:
-    std::vector<double> times;
-    std::vector<std::string> names;
-    time_point tick_time;
-    bool is_tocked = true;
-    
+    std::vector<std::chrono::high_resolution_clock::time_point> tick_times;
+    std::vector<std::chrono::high_resolution_clock::time_point> tock_times;
+    std::vector<std::string> tick_names;
+    std::vector<std::string> tock_names;
+    std::vector<double> timers;
+    std::vector<std::string> tickers;
+
   public:
-    void tick(const std::string name) {
-      names.push_back(name);
-      if (!is_tocked) {
-        times.push_back(duration(now() - tick_time));
-      } else is_tocked = false;
-      tick_time = now();
+    // start a timer
+    void tick(std::string name) {
+      tick_names.push_back(name);
+      tick_times.push_back(now());
     }
-    
-    void tock() {
-      if (!is_tocked) {
-        times.push_back(duration(now() - tick_time));
-        is_tocked = true;
+
+    // stop a timer
+    void tock(std::string name) {
+      tock_names.push_back(name);
+      tock_times.push_back(now());
+    }
+
+    // calculate timer durations
+    void stop(std::string var_name) {
+      for (unsigned int i = 0; i < tick_names.size(); ++i) {
+        for (unsigned int j = 0; j < tock_names.size(); ++j) {
+          if (tick_names[i] == tock_names[j]) {
+            timers.push_back(duration(tock_times[j] - tick_times[i]));
+            tickers.push_back(tick_names[i]);
+            tock_times.erase(tock_times.begin() + j);
+            tock_names.erase(tock_names.begin() + j);
+            break;
+          }
+        }
       }
-    }
-    
-    void write(std::string name) {
-      Environment env = Environment::global_env();
-      NumericVector d = wrap(times);
-      CharacterVector e = wrap(names);
-      DataFrame df = DataFrame::create(Named("ticker") = names , _["timer"] = times );
+      DataFrame df = DataFrame::create(Named("ticker") = tickers, Named("timer") = timers);
       df.attr("class") = "RcppClock";
-      env[name] = df;
+      Environment env = Environment::global_env();
+      env[var_name] = df;
     }
   };
 }
