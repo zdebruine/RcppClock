@@ -1,11 +1,11 @@
 Package: RcppClock
 Type: Package
-Title: A Simple Tick-Tock Clock For Timing Rcpp Functions
+Title: "Seamless Rcpp Benchmarking in R"
 Version: 1.0
 Date: 2021-11-01
 Author: Zach DeBruine
 Maintainer: Zach DeBruine <zacharydebruine@gmail.com>
-Description: Time how long it takes to evaluate Rcpp code easily with the RcppClock class, conveniently print results from either the R or C++ end, and plot a graph of the results with ggplot2. 
+Description: "Time the execution of overlapping or unique Rcpp code chunks using convenient methods, seamlessly write timing results to an RcppClock object in the R global environment, and summarize and/or plot the results in R."
 License: GPL (>= 2)
 Imports: Rcpp (>= 1.0.7), ggplot2
 LinkingTo: Rcpp

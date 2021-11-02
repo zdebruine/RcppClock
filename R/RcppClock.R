@@ -10,7 +10,7 @@
 #' @section RcppClock functions:
 #' See the RcppClock README on \code{https://github.com/zdebruine/RcppClock#readme} for basic usage examples.
 #' 
-#' When the Rcpp `Rcpp::clock::write()` method is called in Rcpp code, an S3 \code{RcppClock} object
+#' When the Rcpp `Rcpp::clock::stop()` method is called in Rcpp code, an S3 \code{RcppClock} object
 #' will be created in the global environment. This object contains three methods:
 #' 
 #' * \code{summary}: computes runtime summary statistics and returns a \code{data.frame}
@@ -36,6 +36,32 @@
 #' clock
 #' plot(clock)
 #' summary(clock, units = "ms")
+#' 
+#' \dontrun{
+#' # this is the Rcpp code behind the "fibonacci" example function
+#'
+#' ```{Rcpp}
+#' //[[Rcpp::depends(RcppClock)]]
+#' #include <RcppClock.h>
+#'
+#' int fib(int n) {
+#' return ((n <= 1) ? n : fib(n - 1) + fib(n - 2));
+#' }
+#'
+#' //[[Rcpp::export]]
+#' void fibonacci(std::vector<int> n, int reps = 10) {
+#'   Rcpp::Clock clock;
+#'   while(reps-- > 0){
+#'     for(auto number : n){
+#'       clock.tick("fib" + std::to_string(number));
+#'       fib(number);
+#'       clock.tock("fib" + std::to_string(number));
+#'     }
+#'  }
+#'  clock.stop("clock");
+#' }
+#' ```
+#' }
 NULL
 
 #' @rdname RcppClock
@@ -49,11 +75,11 @@ summary.RcppClock <- function(object, units = "auto", ...){
   min_time <- min(object$timer[object$timer != 0])
   if(is.na(min_time)) min_time <- 0
   if(units == "auto"){
-    if(min_time > 1e9){
+    if(min_time > 1e8){
       units <- "s"
-    } else if(min_time > 1e6){
+    } else if(min_time > 1e5){
       units <- "ms"
-    } else if(min_time > 1e3){
+    } else if(min_time > 1e2){
       units <- "us"
     } else {
       units <- "ns"
@@ -69,13 +95,13 @@ summary.RcppClock <- function(object, units = "auto", ...){
   
   # summarize results
   object <- data.frame("timer" = object$timer, "ticker" = object$ticker)
-  df2 <- aggregate(timer~ticker, object, mean)
+  df2 <- aggregate(object$timer, list(ticker = object$ticker), mean)
   colnames(df2)[2] <- "mean"
-  df2$sd <- aggregate(timer~ticker, object, sd)$timer
-  df2$min <- aggregate(timer~ticker, object, min)$timer
-  df2$max <- aggregate(timer~ticker, object, max)$timer
+  df2$sd <- aggregate(object$timer, list(ticker = object$ticker), sd)$x
+  df2$min <- aggregate(object$timer, list(ticker = object$ticker), min)$x
+  df2$max <- aggregate(object$timer, list(ticker = object$ticker), max)$x
   object$timer <- 1
-  df2$neval <- aggregate(timer~ticker, object, sum)$timer
+  df2$neval <- aggregate(object$timer, list(ticker = object$ticker), sum)$x
 
   long_units <- c("seconds", "milliseconds", "microseconds", "nanoseconds")
   short_units <- c("s", "ms", "us", "ns")
@@ -99,13 +125,13 @@ print.RcppClock <- function(x, ...){
 plot.RcppClock <- function(x, ...) {
   min_time <- min(x$timer[x$timer != 0])
   if(is.na(min_time)) min_time <- 0
-  if(min_time > 1e9) {
+  if(min_time > 1e8) {
     units <- "s"
     x$timer <- x$timer / 1e9
-  } else if(min_time > 1e6) {
+  } else if(min_time > 1e7) {
     units <- "ms"
     x$timer <- x$timer / 1e6
-  } else if(min_time > 1e3) {
+  } else if(min_time > 1e2) {
     units <- "us"
     x$timer <- x$timer / 1e3
   } else {
@@ -117,7 +143,7 @@ plot.RcppClock <- function(x, ...) {
 
   df <- data.frame("timer" = x$timer, "ticker" = x$ticker)
 
-  suppressWarnings(print(ggplot(df, aes(y = ticker, x = timer)) + 
+  suppressWarnings(print(ggplot(df, aes_string(y = "ticker", x = "timer")) + 
     geom_violin() + 
     geom_jitter(height = 0.1) + 
     theme_classic() + 

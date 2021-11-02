@@ -36,7 +36,7 @@ See https://github.com/zdebruine/RcppClock/readme.md for information on how to u
 
 See the RcppClock README on \code{https://github.com/zdebruine/RcppClock#readme} for basic usage examples.
 
-When the Rcpp \verb{Rcpp::clock::write()} method is called in Rcpp code, an S3 \code{RcppClock} object
+When the Rcpp \verb{Rcpp::clock::stop()} method is called in Rcpp code, an S3 \code{RcppClock} object
 will be created in the global environment. This object contains three methods:
 \itemize{
 \item \code{summary}: computes runtime summary statistics and returns a \code{data.frame}
@@ -56,6 +56,32 @@ fibonacci(n = 25:35, reps = 10)
 clock
 plot(clock)
 summary(clock, units = "ms")
+
+\dontrun{
+# this is the Rcpp code behind the "fibonacci" example function
+
+```{Rcpp}
+//[[Rcpp::depends(RcppClock)]]
+#include <RcppClock.h>
+
+int fib(int n) {
+return ((n <= 1) ? n : fib(n - 1) + fib(n - 2));
+}
+
+//[[Rcpp::export]]
+void fibonacci(std::vector<int> n, int reps = 10) {
+  Rcpp::Clock clock;
+  while(reps-- > 0){
+    for(auto number : n){
+      clock.tick("fib" + std::to_string(number));
+      fib(number);
+      clock.tock("fib" + std::to_string(number));
+    }
+ }
+ clock.stop("clock");
+}
+```
+}
 }
 \seealso{
 \code{\link{fibonacci}}
