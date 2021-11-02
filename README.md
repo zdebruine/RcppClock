@@ -12,7 +12,7 @@ library(RcppClock)
 
 ## The Rcpp side of things
 
-Load the RcppClock header into your R session using `library(RcppClock)`, but more commonly you will load the header library into Rcpp functions:
+Load the RcppClock header into your R session using `library(RcppClock)`, link it in your `DESCRIPTION` file or with `//[[Rcpp::depends(RcppClock)]]`, and load the header library into individual `.cpp` files with `#include <RcppClock.h>`:
 
 ```
 //[[Rcpp::depends(RcppClock)]]
@@ -23,6 +23,8 @@ Load the RcppClock header into your R session using `library(RcppClock)`, but mo
 void sleepy(){
   Rcpp::Clock clock;
   
+  clock.tick("both_naps");
+  
   clock.tick("short_nap");
   std::this_thread::sleep_for(std::chrono::milliseconds(10));  
   clock.tock("short_nap");
@@ -31,6 +33,8 @@ void sleepy(){
   std::this_thread::sleep_for(std::chrono::milliseconds(100));  
   clock.tock("long_nap");
 
+  clock.tock("both_naps");
+  
   // send the times to the R global environment variable, named "naptimes"
   clock.stop("naptimes");
 }
