@@ -2,7 +2,7 @@ Package: RcppClock
 Type: Package
 Title: Seamless 'Rcpp' Benchmarking
 Version: 1.1
-Date: 2021-24-01
+Date: 2021-11-24
 Author: Zach DeBruine
 Maintainer: Zach DeBruine <zacharydebruine@gmail.com>
 Description: Time the execution of overlapping or unique 'Rcpp' code chunks using convenient methods, seamlessly write timing results to an 'RcppClock' object in the R global environment, and summarize and/or plot the results in R.
