@@ -1,5 +1,9 @@
 # RcppClock
 
+[![](https://cranlogs.r-pkg.org/badges/grand-total/RcppClock)](https://cran.r-project.org/package=RcppML)
+[![](https://www.r-pkg.org/badges/version-last-release/RcppClock)](https://cran.r-project.org/package=RcppML)
+[![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
+
 RcppClock is a simple wrapper for `std::chrono::high_resolution_clock` that makes benchmarking Rcpp code easy.
 
 Install RcppClock from CRAN.
