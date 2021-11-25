@@ -30,7 +30,7 @@ namespace Rcpp {
       Rcpp::stop("Rcpp::Clock 'tock' with name of '" + name + "' did not match with a corresponding 'tick' name");
     }
 
-    // calculate timer durations
+    // return timer durations
     void stop(std::string var_name) {
       DataFrame df = DataFrame::create(Named("ticker") = durations_names, Named("timer") = durations);
       df.attr("class") = "RcppClock";
