@@ -93,6 +93,8 @@ summary.RcppClock <- function(object, units = "auto", ...){
     object$timer <- object$timer / 1e3
   }
   
+  object$ticker <- factor(object$ticker, levels = unique(object$ticker))
+  
   # summarize results
   object <- data.frame("timer" = object$timer, "ticker" = object$ticker)
   df2 <- aggregate(object$timer, list(ticker = object$ticker), mean)
@@ -137,15 +139,18 @@ plot.RcppClock <- function(x, ...) {
   } else {
     units <- "ns"
   }
+  
+  tickers <- unique(x$ticker)
 
   long_units <- c("seconds", "milliseconds", "microseconds", "nanoseconds")
   short_units <- c("s", "ms", "us", "ns")
 
   df <- data.frame("timer" = x$timer, "ticker" = x$ticker)
+  df$ticker <- factor(df$ticker, levels = rev(unique(df$ticker)))
 
   suppressWarnings(print(ggplot(df, aes_string(y = "ticker", x = "timer")) + 
-    geom_violin() + 
-    geom_jitter(height = 0.1) + 
+    geom_violin(scale = "width") + 
+    geom_jitter(height = 0.1, size = 0.8) + 
     theme_classic() + 
     scale_x_continuous(trans = "log10") + 
     theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
