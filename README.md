@@ -109,4 +109,4 @@ plot(clock)
 ## Limitations
 
 * Not compatible with OpenMP parallelization.
-* Processes taking less than a microsecond cannot be reliably timed.
+* Processes taking less than a microsecond cannot be reliably timed on some platforms.
